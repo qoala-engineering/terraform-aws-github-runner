@@ -42,19 +42,10 @@ module "runners" {
     name = ["Windows_Server-20H2-English-Core-ContainersLatest-*"]
   }
 
-  runner_log_files = [
-    {
-      "log_group_name" : "user_data",
-      "prefix_log_group" : true,
-      "file_path" : var.runner_os == "linux" ? "/var/log/user-data.log" : "C:/UserData.log",
-      "log_stream_name" : "{instance_id}"
-    },
-    {
-      "log_group_name" : "runner",
-      "prefix_log_group" : true,
-      "file_path" : var.runner_os == "linux" ? "/home/runners/actions-runner/_diag/Runner_**.log" : "C:/actions-runner/_diag/Runner_**.log",
-      "log_stream_name" : "{instance_id}"
-    }
+  # key_name = "niek"
+
+  runner_iam_role_managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
 
   # Uncommet idle config to have idle runners from 9 to 5 in time zone Amsterdam
